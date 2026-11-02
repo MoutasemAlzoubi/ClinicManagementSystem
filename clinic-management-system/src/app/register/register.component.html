@@ -1,0 +1,135 @@
+
+<div class="auth-shell">
+    <a class="auth-brand" routerLink="/">
+        CLINIC<span>CARE</span>
+    </a>
+
+    <div class="auth-card wide">
+        <p class="eyebrow">PATIENT REGISTRATION</p>
+
+        <h1>Create your account</h1>
+
+        <p class="muted">
+            Register to request appointments and access your health information.
+        </p>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <div class="form-grid">
+                <div>
+                    <label>First name</label>
+                    <input formControlName="firstName" placeholder="Enter your first name">
+
+                    <small class="error" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.hasError('required')">
+                        First name is required.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Last name</label>
+                    <input formControlName="lastName" placeholder="Enter your last name">
+
+                    <small class="error" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.hasError('required')">
+                        Last name is required.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Email address</label>
+                    <input type="email" formControlName="email" placeholder="Enter your email address">
+
+                    <small class="error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+                        Email address is required.
+                    </small>
+
+                    <small class="error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
+                        Please enter a valid email address.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Password (minimum 3 characters)</label>
+                    <input type="password" formControlName="password" placeholder="Create a password">
+
+                    <small class="error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+                        Password is required.
+                    </small>
+
+                    <small class="error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+                        Password must be at least 3 characters.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Date of birth</label>
+                    <input type="date" formControlName="dob">
+
+                    <small class="error" *ngIf="registerForm.get('dob')?.touched && registerForm.get('dob')?.hasError('required')">
+                        Date of birth is required.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Gender</label>
+                    <select formControlName="gender">
+                        <option value="">Select</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+
+                    <small class="error" *ngIf="registerForm.get('gender')?.touched && registerForm.get('gender')?.hasError('required')">
+                        Please select your gender.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Phone</label>
+                    <input formControlName="phone" placeholder="Enter your phone number">
+
+                    <small class="error" *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.hasError('required')">
+                        Phone number is required.
+                    </small>
+                </div>
+
+                <div>
+                    <label>Country</label>
+                    <select formControlName="countryId">
+                        <option value="">Select country</option>
+                        <option *ngFor="let c of countries" [value]="c.id">
+                            {{c.name}}
+                        </option>
+                    </select>
+
+                    <small class="error" *ngIf="registerForm.get('countryId')?.touched && registerForm.get('countryId')?.hasError('required')">
+                        Please select your country.
+                    </small>
+                </div>
+
+                <div class="full">
+                    <label>Address</label>
+                    <input formControlName="address" placeholder="Enter your full address">
+
+                    <small class="error" *ngIf="registerForm.get('address')?.touched && registerForm.get('address')?.hasError('required')">
+                        Address is required.
+                    </small>
+                </div>
+            </div>
+
+            <p class="error" *ngIf="error">{{error}}</p>
+
+            <p class="success" *ngIf="success">
+                {{success}}
+                <a routerLink="/login">Sign in</a>
+            </p>
+
+            <button [disabled]="loading">
+                {{loading ? 'Creating account...' : 'Create patient account'}}
+            </button>
+        </form>
+
+        <p class="bottom">
+            Already registered?
+            <a routerLink="/login">Sign in</a>
+        </p>
+    </div>
+</div>

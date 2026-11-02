@@ -1,0 +1,178 @@
+
+<div class="portal">
+
+  <aside>
+    <a routerLink="/" class="brand">
+      CLINIC<span>CARE</span>
+    </a>
+
+    <p class="side-label">WORKSPACE</p>
+
+    <a class="active">▦ &nbsp; Patient dashboard</a>
+    <a routerLink="/">↗ &nbsp; Public website</a>
+
+    <div class="side-bottom">
+      <b>{{ user?.fullName }}</b>
+      <small>Patient</small>
+      <button (click)="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main>
+
+    <header>
+      <div>
+        <p class="eyebrow">CLINIC MANAGEMENT</p>
+        <h1>Patient Dashboard</h1>
+      </div>
+      <span class="user-chip">{{ user?.fullName }}</span>
+    </header>
+
+    <p class="notice" *ngIf="message">{{ message }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <!-- Request an appointment -->
+    <div class="panel">
+      <h2>Request an appointment</h2>
+
+      <p>
+        Choose a doctor and a future time. The clinic will confirm your request.
+      </p>
+
+      <div class="form-grid">
+
+        <div>
+          <select [(ngModel)]="appointment.doctorId" (blur)="appointmentTouched.doctorId = true">
+            <option value="">Choose doctor</option>
+            <option *ngFor="let d of doctors" [value]="d.id">
+              Dr. {{ d.firstName }} {{ d.lastName }} — {{ d.specialization }}
+            </option>
+          </select>
+          <small class="error" *ngIf="appointmentTouched.doctorId && !appointment.doctorId">
+            Please select a doctor.
+          </small>
+        </div>
+
+        <div>
+          <input
+            type="datetime-local"
+            [(ngModel)]="appointment.startDateTime"
+            (blur)="appointmentTouched.startDateTime = true"
+          >
+          <small class="error" *ngIf="appointmentTouched.startDateTime && !appointment.startDateTime">
+            Start date and time are required.
+          </small>
+          <small class="error" *ngIf="appointmentTouched.startDateTime && appointment.startDateTime && isStartDateInvalid()">
+            Appointment date must be in the future.
+          </small>
+        </div>
+
+        <div>
+          <input
+            type="datetime-local"
+            [(ngModel)]="appointment.endDateTime"
+            (blur)="appointmentTouched.endDateTime = true"
+          >
+          <small class="error" *ngIf="appointmentTouched.endDateTime && !appointment.endDateTime">
+            End date and time are required.
+          </small>
+          <small class="error" *ngIf="appointmentTouched.endDateTime && appointment.endDateTime && isEndDateInvalid()">
+            End time must be after start time.
+          </small>
+        </div>
+
+        <div>
+          <input
+            placeholder="Reason / notes (optional)"
+            [(ngModel)]="appointment.notes"
+          >
+        </div>
+
+      </div>
+
+      <button class="primary" (click)="book()">
+        Request appointment
+      </button>
+    </div>
+
+    <!-- My appointments -->
+    <div class="panel">
+      <h2>My appointments</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+
+          <tr *ngFor="let a of appointments">
+            <td>{{ a.doctorName }}</td>
+            <td>{{ a.startDateTime | date:'medium' }}</td>
+            <td>{{ a.status }}</td>
+            <td>
+              <button
+                class="small danger"
+                *ngIf="a.status !== 'Cancelled' && a.status !== 'Completed'"
+                (click)="cancel(a.id)"
+              >
+                Cancel
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- My medical records -->
+    <div class="panel">
+      <h2>My medical records</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Doctor</th>
+            <th>Diagnosis</th>
+            <th>Observation</th>
+            <th>Date</th>
+          </tr>
+
+          <tr *ngFor="let r of records">
+            <td>{{ r.doctorName }}</td>
+            <td>{{ r.diagnosis }}</td>
+            <td>{{ r.observation }}</td>
+            <td>{{ r.recordDate | date }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- My prescriptions -->
+    <div class="panel">
+      <h2>My prescriptions</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Medication</th>
+            <th>Dosage</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+            <th>Doctor</th>
+          </tr>
+
+          <tr *ngFor="let p of prescriptions">
+            <td>{{ p.medicationName }}</td>
+            <td>{{ p.dosage }}</td>
+            <td>{{ p.frequency }}</td>
+            <td>{{ p.duration }}</td>
+            <td>{{ p.doctorName }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>

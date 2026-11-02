@@ -1,0 +1,257 @@
+
+<div class="portal">
+
+  <aside>
+    <a routerLink="/" class="brand">
+      CLINIC<span>CARE</span>
+    </a>
+
+    <p class="side-label">WORKSPACE</p>
+
+    <a class="active">▦ &nbsp; Admin dashboard</a>
+    <a routerLink="/">↗ &nbsp; Public website</a>
+
+    <div class="side-bottom">
+      <b>{{ user?.fullName }}</b>
+      <small>Administrator</small>
+      <button (click)="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main>
+
+    <header>
+      <div>
+        <p class="eyebrow">CLINIC MANAGEMENT</p>
+        <h1>Admin Dashboard</h1>
+      </div>
+      <span class="user-chip">{{ user?.fullName }}</span>
+    </header>
+
+    <p class="notice" *ngIf="message">{{ message }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <div class="stats">
+      <article>
+        <small>Registered patients</small>
+        <strong>{{ patients.length }}</strong>
+      </article>
+      <article>
+        <small>Doctors</small>
+        <strong>{{ doctors.length }}</strong>
+      </article>
+      <article>
+        <small>Appointments</small>
+        <strong>{{ appointments.length }}</strong>
+      </article>
+    </div>
+
+    <!-- Add patient record -->
+    <div class="panel">
+      <h2>Add patient record</h2>
+      <p>Create a clinic patient file. Patients can register separately to link their account.</p>
+
+      <div class="form-grid">
+
+        <div>
+          <input placeholder="First name" [(ngModel)]="patientForm.firstName" (blur)="patientTouched.firstName = true">
+          <small class="error" *ngIf="patientTouched.firstName && !patientForm.firstName.trim()">First name is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Last name" [(ngModel)]="patientForm.lastName" (blur)="patientTouched.lastName = true">
+          <small class="error" *ngIf="patientTouched.lastName && !patientForm.lastName.trim()">Last name is required.</small>
+        </div>
+
+        <div>
+          <input type="date" [(ngModel)]="patientForm.dob" (blur)="patientTouched.dob = true">
+          <small class="error" *ngIf="patientTouched.dob && !patientForm.dob">Date of birth is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Email" [(ngModel)]="patientForm.email" (blur)="patientTouched.email = true">
+          <small class="error" *ngIf="patientTouched.email && !patientForm.email.trim()">Email is required.</small>
+          <small class="error" *ngIf="patientTouched.email && patientForm.email.trim() && !isValidEmail(patientForm.email)">Enter a valid email address.</small>
+        </div>
+
+        <div>
+          <select [(ngModel)]="patientForm.gender" (blur)="patientTouched.gender = true">
+            <option value="">Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+          <small class="error" *ngIf="patientTouched.gender && !patientForm.gender">Please select a gender.</small>
+        </div>
+
+        <div>
+          <input placeholder="Phone" [(ngModel)]="patientForm.phone" (blur)="patientTouched.phone = true">
+          <small class="error" *ngIf="patientTouched.phone && !patientForm.phone.trim()">Phone is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Address" [(ngModel)]="patientForm.address" (blur)="patientTouched.address = true">
+          <small class="error" *ngIf="patientTouched.address && !patientForm.address.trim()">Address is required.</small>
+        </div>
+
+        <div>
+          <select [(ngModel)]="patientForm.countryId" (blur)="patientTouched.countryId = true">
+            <option value="">Country</option>
+            <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</option>
+          </select>
+          <small class="error" *ngIf="patientTouched.countryId && !patientForm.countryId">Please select a country.</small>
+        </div>
+
+      </div>
+
+      <button class="primary" (click)="createPatient()">Add patient</button>
+    </div>
+
+    <!-- Create doctor account -->
+    <div class="panel">
+      <h2>Create doctor account</h2>
+      <p>Only administrators can create doctor accounts.</p>
+
+      <div class="form-grid">
+
+        <div>
+          <input placeholder="First name" [(ngModel)]="doctorForm.firstName" (blur)="doctorTouched.firstName = true">
+          <small class="error" *ngIf="doctorTouched.firstName && !doctorForm.firstName.trim()">First name is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Last name" [(ngModel)]="doctorForm.lastName" (blur)="doctorTouched.lastName = true">
+          <small class="error" *ngIf="doctorTouched.lastName && !doctorForm.lastName.trim()">Last name is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Email" [(ngModel)]="doctorForm.email" (blur)="doctorTouched.email = true">
+          <small class="error" *ngIf="doctorTouched.email && !doctorForm.email.trim()">Email is required.</small>
+          <small class="error" *ngIf="doctorTouched.email && doctorForm.email.trim() && !isValidEmail(doctorForm.email)">Enter a valid email address.</small>
+        </div>
+
+        <div>
+          <input placeholder="Temporary password" type="password" [(ngModel)]="doctorForm.temporaryPassword" (blur)="doctorTouched.temporaryPassword = true">
+          <small class="error" *ngIf="doctorTouched.temporaryPassword && !doctorForm.temporaryPassword">Password is required.</small>
+          <small class="error" *ngIf="doctorTouched.temporaryPassword && doctorForm.temporaryPassword && doctorForm.temporaryPassword.length < 8">Password must be at least 8 characters.</small>
+        </div>
+
+        <div>
+          <input placeholder="Specialization" [(ngModel)]="doctorForm.specialization" (blur)="doctorTouched.specialization = true">
+          <small class="error" *ngIf="doctorTouched.specialization && !doctorForm.specialization.trim()">Specialization is required.</small>
+        </div>
+
+        <div>
+          <input placeholder="Professional bio" [(ngModel)]="doctorForm.bio">
+        </div>
+
+      </div>
+
+      <button class="primary" (click)="createDoctor()">Create doctor</button>
+    </div>
+
+    <!-- Countries -->
+    <div class="panel">
+      <h2>Countries</h2>
+
+      <div class="form-grid">
+        <div>
+          <input placeholder="New country name" [(ngModel)]="countryName" (blur)="countryTouched = true">
+          <small class="error" *ngIf="countryTouched && !countryName.trim()">Country name is required.</small>
+        </div>
+      </div>
+
+      <button class="primary" (click)="addCountry()">Add country</button>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Country</th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let c of countries">
+            <td>{{ c.name }}</td>
+            <td><button class="small danger" (click)="deleteCountry(c.id)">Delete</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Appointments -->
+    <div class="panel">
+      <h2>Appointments</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let a of appointments">
+            <td>{{ a.patientName }}</td>
+            <td>{{ a.doctorName }}</td>
+            <td>{{ a.startDateTime | date:'medium' }}</td>
+            <td>{{ a.status }}</td>
+            <td>
+              <button class="small" (click)="status(a.id, 'Confirmed')">Confirm</button>
+              <button class="small danger" (click)="status(a.id, 'Cancelled')">Cancel</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Doctors -->
+    <div class="panel">
+      <h2>Doctors</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let d of doctors">
+            <td>Dr. {{ d.firstName }} {{ d.lastName }}</td>
+            <td>{{ d.specialization }}</td>
+            <td>{{ d.isActive ? 'Active' : 'Inactive' }}</td>
+            <td>
+              <button class="small" (click)="toggleDoctor(d)">{{ d.isActive ? 'Deactivate' : 'Activate' }}</button>
+              <button class="small danger" (click)="deleteDoctor(d.id)">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Patients -->
+    <div class="panel">
+      <h2>Patients</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Country</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let p of patients">
+            <td>{{ p.firstName }} {{ p.lastName }}</td>
+            <td>{{ p.email }}</td>
+            <td>{{ p.phone }}</td>
+            <td>{{ p.countryName }}</td>
+            <td><button class="small danger" (click)="deletePatient(p.id)">Delete</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>

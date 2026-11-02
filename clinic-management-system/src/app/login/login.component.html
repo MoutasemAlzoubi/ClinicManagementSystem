@@ -1,0 +1,44 @@
+<div class="auth-shell">
+    <a class="auth-brand" routerLink="/">
+        CLINIC<span>CARE</span>
+    </a>
+
+    <div class="auth-card">
+        <p class="eyebrow">WELCOME BACK</p>
+
+        <h1>Sign in to your account</h1>
+
+        <p class="muted">
+            Access your clinic portal securely.
+        </p>
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <label>Email address</label>
+            <input
+                type="email"
+                formControlName="email"
+                placeholder="name@example.com"
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                formControlName="password"
+                placeholder="Enter your password"
+            >
+
+            <p class="error" *ngIf="error">
+                {{error}}
+            </p>
+
+            <button [disabled]="loading">
+                {{loading ? 'Signing in...' : 'Sign in'}}
+            </button>
+        </form>
+
+        <p class="bottom">
+            New to ClinicCare?
+            <a routerLink="/register">Create a patient account</a>
+        </p>
+    </div>
+</div>

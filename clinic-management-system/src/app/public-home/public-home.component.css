@@ -1,0 +1,286 @@
+:host {
+  display: block;
+  color: #183b3a;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8%;
+  background: #fff;
+}
+
+.brand {
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #173e3b;
+  text-decoration: none;
+  font-size: 21px;
+}
+
+.brand span {
+  color: #4e9a83;
+}
+
+.navbar div {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.navbar a:not(.brand) {
+  text-decoration: none;
+  color: #355451;
+  font-size: 14px;
+}
+
+.nav-login {
+  font-weight: 700;
+}
+
+.nav-cta,
+.primary {
+  background: #1c6256;
+  color: white !important;
+  padding: 13px 21px;
+  border-radius: 5px;
+}
+
+.hero {
+  background: #edf5f1;
+  min-height: 530px;
+  padding: 75px 10%;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 30px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #4a927d;
+  font-weight: 800;
+}
+
+.hero h1 {
+  font-size: 62px;
+  line-height: 1.05;
+  margin: 18px 0;
+  color: #163c38;
+}
+
+.hero h1 em {
+  font-family: Georgia, serif;
+  color: #55957f;
+  font-weight: 400;
+}
+
+.lead {
+  max-width: 470px;
+  color: #607572;
+  line-height: 1.8;
+}
+
+.primary {
+  display: inline-block;
+  margin-top: 22px;
+  text-decoration: none;
+}
+
+.primary span {
+  margin-left: 18px;
+}
+
+.trust {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #55716c;
+  display: flex;
+  gap: 9px;
+}
+
+.trust b {
+  color: #4c9a80;
+}
+
+.hero-art {
+  height: 370px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.circle {
+  width: 320px;
+  height: 320px;
+  background: #d1e5dc;
+  border-radius: 50%;
+}
+
+.doctor-card {
+  position: absolute;
+  background: white;
+  width: 245px;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 20px 55px #244c3c25;
+  transform: rotate(-4deg);
+}
+
+.doctor-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #e1f1e9;
+  color: #39836d;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+}
+
+.doctor-card h3 {
+  font-size: 20px;
+  margin: 22px 0 8px;
+}
+
+.doctor-card p,
+.doctor-card small {
+  color: #82948f;
+  font-size: 12px;
+}
+
+.card-line {
+  height: 5px;
+  background: #d6ebe1;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.floating {
+  position: absolute;
+  background: white;
+  padding: 13px 18px;
+  border-radius: 7px;
+  box-shadow: 0 8px 25px #244c3c20;
+  font-size: 12px;
+}
+
+.f1 {
+  top: 45px;
+  right: 0;
+}
+
+.f2 {
+  bottom: 45px;
+  left: 0;
+}
+
+.section {
+  padding: 80px 10%;
+  text-align: center;
+}
+
+.section h2,
+.about h2 {
+  font-size: 36px;
+  margin: 10px 0 35px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: left;
+}
+
+.service-grid article {
+  padding: 28px;
+  border: 1px solid #e2ece7;
+  border-radius: 9px;
+}
+
+.service-grid article span {
+  font-size: 26px;
+  color: #55957f;
+}
+
+.service-grid p,
+.about p {
+  line-height: 1.8;
+  color: #71827e;
+}
+
+.about {
+  background: #f7faf8;
+  padding: 65px 10%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.about h2 {
+  margin-bottom: 0;
+}
+
+footer {
+  padding: 28px 10%;
+  display: flex;
+  justify-content: space-between;
+  color: #6b817a;
+  font-size: 12px;
+}
+
+footer b {
+  color: #183b3a;
+  letter-spacing: 2px;
+}
+
+footer a {
+  color: #387a68;
+}
+
+@media (max-width: 750px) {
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .navbar div {
+    gap: 10px;
+  }
+
+  .navbar div a:not(.nav-cta) {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 55px 7%;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .hero-art {
+    height: 300px;
+  }
+
+  .service-grid,
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 55px 7%;
+  }
+
+  footer {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}

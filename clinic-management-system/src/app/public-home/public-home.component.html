@@ -1,0 +1,124 @@
+<nav class="navbar">
+    <a class="brand" routerLink="/">
+        CLINIC<span>CARE</span>
+    </a>
+
+    <div>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#doctors">Our Doctors</a>
+        <a routerLink="/login" class="nav-login">Sign in</a>
+        <a routerLink="/register" class="nav-cta">Create account</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-copy">
+        <p class="eyebrow">YOUR HEALTH, OUR PRIORITY</p>
+
+        <h1>
+            Care that puts<br>
+            <em>you first.</em>
+        </h1>
+
+        <p class="lead">
+            Thoughtful medical care, trusted professionals, and a simpler way to manage your health — all in one place.
+        </p>
+
+        <a routerLink="/register" class="primary">
+            Book an appointment <span>→</span>
+        </a>
+
+        <div class="trust">
+            <b>✓</b> Patient-focused care
+            <b>✓</b> Qualified doctors
+        </div>
+    </div>
+
+    <div class="hero-art">
+        <div class="circle"></div>
+
+        <div class="doctor-card">
+            <div class="doctor-icon">✚</div>
+
+            <h3>Better care starts here.</h3>
+            <p>Appointments made simple.</p>
+
+            <div class="card-line"></div>
+
+            <small>CLINICCARE · MEDICAL CENTER</small>
+        </div>
+
+        <div class="floating f1">✦ Compassionate care</div>
+        <div class="floating f2">24/7 Online access</div>
+    </div>
+</header>
+
+<section id="services" class="section">
+    <p class="eyebrow">WHAT WE OFFER</p>
+    <h2>Healthcare made easier.</h2>
+
+    <div class="service-grid">
+        <article>
+            <span>✚</span>
+            <h3>Primary Care</h3>
+            <p>Personalized consultations and ongoing care for your everyday health.</p>
+        </article>
+
+        <article>
+            <span>♡</span>
+            <h3>Specialist Doctors</h3>
+            <p>Connect with experienced medical professionals across specialties.</p>
+        </article>
+
+        <article>
+            <span>◷</span>
+            <h3>Easy Appointments</h3>
+            <p>Request appointments online and keep track of your visits.</p>
+        </article>
+    </div>
+</section>
+
+<section id="doctors" class="section">
+    <p class="eyebrow">OUR MEDICAL TEAM</p>
+    <h2>Meet our doctors.</h2>
+
+    <div class="service-grid">
+        <article *ngFor="let doctor of doctors">
+            <span>✚</span>
+
+            <h3>Dr. {{doctor.firstName}} {{doctor.lastName}}</h3>
+
+            <p>{{doctor.specialization}}</p>
+
+            <p *ngIf="doctor.bio">{{doctor.bio}}</p>
+        </article>
+    </div>
+
+    <p class="lead" *ngIf="!doctors.length" style="margin:0 auto">
+        Our medical team information will be available here soon.
+    </p>
+</section>
+
+<section id="about" class="about">
+    <div>
+        <p class="eyebrow">ABOUT CLINICCARE</p>
+        <h2>A healthier life begins with a trusted partner.</h2>
+    </div>
+
+    <p>
+        We bring patients and healthcare professionals together through accessible, organized, and respectful care. Create an account to request appointments and securely access your medical information.
+    </p>
+</section>
+
+<section id="contact" class="section">
+    <p class="eyebrow">GET IN TOUCH</p>
+    <h2>We are here to help.</h2>
+    <p>Contact the clinic reception to learn more about services and appointments.</p>
+</section>
+
+<footer>
+    <b>CLINICCARE</b>
+    <span>© 2026 ClinicCare Medical Center. All rights reserved.</span>
+    <a routerLink="/login">Staff portal</a>
+</footer>

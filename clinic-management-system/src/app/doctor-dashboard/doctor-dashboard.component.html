@@ -1,0 +1,200 @@
+
+<div class="portal">
+
+  <aside>
+    <a routerLink="/" class="brand">
+      CLINIC<span>CARE</span>
+    </a>
+
+    <p class="side-label">WORKSPACE</p>
+
+    <a class="active">▦ &nbsp; Doctor dashboard</a>
+    <a routerLink="/">↗ &nbsp; Public website</a>
+
+    <div class="side-bottom">
+      <b>{{ user?.fullName }}</b>
+      <small>Doctor</small>
+      <button (click)="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main>
+
+    <header>
+      <div>
+        <p class="eyebrow">CLINIC MANAGEMENT</p>
+        <h1>Doctor Dashboard</h1>
+      </div>
+      <span class="user-chip">{{ user?.fullName }}</span>
+    </header>
+
+    <p class="notice" *ngIf="message">{{ message }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <!-- Statistics -->
+    <div class="stats">
+      <article>
+        <small>My appointments</small>
+        <strong>{{ appointments.length }}</strong>
+      </article>
+      <article>
+        <small>My patients</small>
+        <strong>{{ patients.length }}</strong>
+      </article>
+      <article>
+        <small>Clinical records</small>
+        <strong>{{ records.length }}</strong>
+      </article>
+    </div>
+
+    <!-- My appointments -->
+    <div class="panel">
+      <h2>My appointments</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+          <tr *ngFor="let a of appointments">
+            <td>{{ a.patientName }}</td>
+            <td>{{ a.startDateTime | date:'medium' }}</td>
+            <td>{{ a.status }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Create clinical record -->
+    <div class="panel">
+      <h2>Create clinical record</h2>
+
+      <p>
+        Records can only be created for patients who have an appointment with you.
+      </p>
+
+      <div class="form-grid">
+
+        <div>
+          <select [(ngModel)]="record.patientId" (blur)="recordTouched.patientId = true">
+            <option value="">Select patient</option>
+            <option *ngFor="let p of patients" [value]="p.id">
+              {{ p.firstName }} {{ p.lastName }}
+            </option>
+          </select>
+          <small class="error" *ngIf="recordTouched.patientId && !record.patientId">
+            Please select a patient.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Diagnosis" [(ngModel)]="record.diagnosis" (blur)="recordTouched.diagnosis = true">
+          <small class="error" *ngIf="recordTouched.diagnosis && !record.diagnosis.trim()">
+            Diagnosis is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Observation" [(ngModel)]="record.observation" (blur)="recordTouched.observation = true">
+          <small class="error" *ngIf="recordTouched.observation && !record.observation.trim()">
+            Observation is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Treatment" [(ngModel)]="record.treatment" (blur)="recordTouched.treatment = true">
+          <small class="error" *ngIf="recordTouched.treatment && !record.treatment.trim()">
+            Treatment is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Additional notes" [(ngModel)]="record.notes">
+        </div>
+
+      </div>
+
+      <button class="primary" (click)="createRecord()">Save medical record</button>
+    </div>
+
+    <!-- Write a prescription -->
+    <div class="panel">
+      <h2>Write a prescription</h2>
+
+      <div class="form-grid">
+
+        <div>
+          <select [(ngModel)]="prescription.patientId" (blur)="prescriptionTouched.patientId = true">
+            <option value="">Select patient</option>
+            <option *ngFor="let p of patients" [value]="p.id">
+              {{ p.firstName }} {{ p.lastName }}
+            </option>
+          </select>
+          <small class="error" *ngIf="prescriptionTouched.patientId && !prescription.patientId">
+            Please select a patient.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Medication name" [(ngModel)]="prescription.medicationName" (blur)="prescriptionTouched.medicationName = true">
+          <small class="error" *ngIf="prescriptionTouched.medicationName && !prescription.medicationName.trim()">
+            Medication name is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Dosage" [(ngModel)]="prescription.dosage" (blur)="prescriptionTouched.dosage = true">
+          <small class="error" *ngIf="prescriptionTouched.dosage && !prescription.dosage.trim()">
+            Dosage is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Frequency" [(ngModel)]="prescription.frequency" (blur)="prescriptionTouched.frequency = true">
+          <small class="error" *ngIf="prescriptionTouched.frequency && !prescription.frequency.trim()">
+            Frequency is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Duration" [(ngModel)]="prescription.duration" (blur)="prescriptionTouched.duration = true">
+          <small class="error" *ngIf="prescriptionTouched.duration && !prescription.duration.trim()">
+            Duration is required.
+          </small>
+        </div>
+
+        <div>
+          <input placeholder="Instructions" [(ngModel)]="prescription.instructions">
+        </div>
+
+      </div>
+
+      <button class="primary" (click)="createPrescription()">Save prescription</button>
+    </div>
+
+    <!-- My clinical records -->
+    <div class="panel">
+      <h2>My clinical records</h2>
+
+      <div class="table-wrap">
+        <table>
+          <tr>
+            <th>Patient</th>
+            <th>Diagnosis</th>
+            <th>Observation</th>
+            <th>Date</th>
+          </tr>
+          <tr *ngFor="let r of records">
+            <td>{{ r.patientName }}</td>
+            <td>{{ r.diagnosis }}</td>
+            <td>{{ r.observation }}</td>
+            <td>{{ r.recordDate | date }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
